@@ -1,6 +1,16 @@
-version: "3.9"  # optional since v1.27.0
 services:
   janus-multistreaming:
     build:
       context: .
-    network_mode: host
+    network_mode: bridge
+    ports:
+      #  EXPOSE 7088 8088 8188 8089 7188
+      - "7088:7088"
+      - "8088:8088"
+      - "8188:8188"
+      - "8089:8089"
+      - "7188:7188"
+    volumes:
+      - ./logs:/opt/janus/lib/janus/loggers
+#      - .conf:/opt/janus/etc/janus/
+
