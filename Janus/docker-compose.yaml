@@ -4,7 +4,7 @@ services:
       context: .
     network_mode: bridge
     ports:
-      #  EXPOSE 7088 8088 8188 8089 7188
+      #        EXPOSE 7088 8088 8188 8089 7188
       - "7088:7088"
       - "8088:8088"
       - "8188:8188"
@@ -12,5 +12,20 @@ services:
       - "7188:7188"
     volumes:
       - ./logs:/opt/janus/lib/janus/loggers
-#      - .conf:/opt/janus/etc/janus/
+      - ./conf:/opt/janus/etc/janus/
 
+  coturn:
+    image: coturn/coturn
+    restart: always
+    network_mode: "host"  # Allows Coturn to bind to all necessary ports
+    command: >
+      -n
+      --log-file=stdout
+      --min-port=49152
+      --max-port=65535
+      --realm=localhost
+      --fingerprint
+      --stale-nonce
+      --no-tls
+      --no-dtls
+      --no-auth
